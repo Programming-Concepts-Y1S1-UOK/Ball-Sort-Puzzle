@@ -15,23 +15,31 @@ void swapValueInArray(int array[4][5], int firstNumRow, int firstNumCol,
 int main() {
   int ballPipeLine[4][5];
   int arrayOrderLevelOne[12] = {1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 3, 2};
-  int firstSelectedColNum;
-  int secondSelectedColNum;
   int firstSelectedRowNum;
+  int firstSelectedColNum;
   int secondSelectedRowNum;
+  int secondSelectedColNum;
   setArrayValuesToZero(ballPipeLine);
-  PrintArrayValuesToConsole(ballPipeLine);
+  // PrintArrayValuesToConsole(ballPipeLine);
   setArrayColValues(ballPipeLine, 3, arrayOrderLevelOne);
-  PrintArrayValuesToConsole(ballPipeLine);
-  firstSelectedColNum = FirstselectedColNumber(ballPipeLine);
-  secondSelectedColNum = secondSelectedColNumber(ballPipeLine, 1);
-  firstSelectedRowNum =
-      getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
-  secondSelectedRowNum =
-      getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
-  swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,
-                   secondSelectedRowNum, secondSelectedColNum);
-  PrintArrayValuesToConsole(ballPipeLine);
+
+  while (true) {
+    PrintArrayValuesToConsole(ballPipeLine);
+
+    firstSelectedColNum = FirstselectedColNumber(ballPipeLine);
+    firstSelectedRowNum =
+        getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
+
+    secondSelectedColNum = secondSelectedColNumber(
+        ballPipeLine,
+        ballPipeLine[firstSelectedRowNum - 1][firstSelectedColNum - 1]);
+    secondSelectedRowNum =
+        getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
+
+    swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,
+                     secondSelectedRowNum, secondSelectedColNum);
+    // PrintArrayValuesToConsole(ballPipeLine);
+  }
 }
 
 void setArrayValuesToZero(int array[4][5]) {
@@ -107,8 +115,6 @@ int secondSelectedColNumber(int array[4][5], int firstselectedNumber) {
           if (array[i][selectedCol - 1] != 0 &&
               array[i][selectedCol - 1] == firstselectedNumber) {
             return selectedCol;
-          } else {
-            break;
           }
         }
       }
@@ -119,19 +125,17 @@ int secondSelectedColNumber(int array[4][5], int firstselectedNumber) {
 }
 int getFirstNoneZeroValueRowNum(int array[4][5], int colNumber) {
   for (int i = 0; i < 4; i++) {
-    if (array[i][colNumber] != 0) return i + 1;
+    if (array[i][colNumber - 1] != 0) return i + 1;
   }
   // if any error occurred in other funtions
   return -1;
 }
 int getLastZeroValueRowNum(int array[4][5], int colNumber) {
   for (int i = 0; i < 4; i++) {
-    if (array[i][colNumber] != 0) return i;
-    // case: all column value == zero
-    return 4;
+    if (array[i][colNumber - 1] != 0) return i;
   }
-  // if any error occurred in other funtions
-  return -1;
+  // case: all column value == zero
+  return 4;
 }
 void swapValueInArray(int array[4][5], int firstNumRow, int firstNumCol,
                       int secondNumRow, int secondNumCol) {
