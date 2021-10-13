@@ -7,6 +7,8 @@ void PrintArrayValuesToConsole(int array[4][5]);
 void setArrayColValues(int array[4][5], int colSize, int arrayOrder[12]);
 int FirstselectedColNumber(int array[4][5]);
 int secondSelectedColNumber(int array[4][5], int firstselectedNumber);
+int getFirstNoneZeroValueRowNum(int array[4][5], int colNumber);
+int getLastZeroValueRowNum(int array[4][5], int colNumber);
 
 int main() {
   int ballPipeLine[4][5];
@@ -19,8 +21,10 @@ int main() {
   PrintArrayValuesToConsole(ballPipeLine);
   firstSelectedColNum = FirstselectedColNumber(ballPipeLine);
   secondSelectedColNum = secondSelectedColNumber(ballPipeLine, 1);
-  cout << firstSelectedColNum << endl;
-  cout << secondSelectedColNum << endl;
+
+  cout << getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum)
+       << endl;
+  cout << getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum) << endl;
 }
 
 void setArrayValuesToZero(int array[4][5]) {
@@ -105,4 +109,20 @@ int secondSelectedColNumber(int array[4][5], int firstselectedNumber) {
 
     cout << endl << "(Enter Valid Column Number)" << endl;
   }
+}
+int getFirstNoneZeroValueRowNum(int array[4][5], int colNumber) {
+  for (int i = 0; i < 4; i++) {
+    if (array[i][colNumber] != 0) return i + 1;
+  }
+  // if any error occurred in other funtions
+  return -1;
+}
+int getLastZeroValueRowNum(int array[4][5], int colNumber) {
+  for (int i = 0; i < 4; i++) {
+    if (array[i][colNumber] != 0) return i;
+    // case: all column value == zero
+    return 4;
+  }
+  // if any error occurred in other funtions
+  return -1;
 }
