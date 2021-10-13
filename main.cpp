@@ -9,22 +9,29 @@ int FirstselectedColNumber(int array[4][5]);
 int secondSelectedColNumber(int array[4][5], int firstselectedNumber);
 int getFirstNoneZeroValueRowNum(int array[4][5], int colNumber);
 int getLastZeroValueRowNum(int array[4][5], int colNumber);
+void swapValueInArray(int array[4][5], int firstNumRow, int firstNumCol,
+                      int secondNumRow, int secondNumCol);
 
 int main() {
   int ballPipeLine[4][5];
   int arrayOrderLevelOne[12] = {1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 3, 2};
   int firstSelectedColNum;
   int secondSelectedColNum;
+  int firstSelectedRowNum;
+  int secondSelectedRowNum;
   setArrayValuesToZero(ballPipeLine);
   PrintArrayValuesToConsole(ballPipeLine);
   setArrayColValues(ballPipeLine, 3, arrayOrderLevelOne);
   PrintArrayValuesToConsole(ballPipeLine);
   firstSelectedColNum = FirstselectedColNumber(ballPipeLine);
   secondSelectedColNum = secondSelectedColNumber(ballPipeLine, 1);
-
-  cout << getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum)
-       << endl;
-  cout << getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum) << endl;
+  firstSelectedRowNum =
+      getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
+  secondSelectedRowNum =
+      getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
+  swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,
+                   secondSelectedRowNum, secondSelectedColNum);
+  PrintArrayValuesToConsole(ballPipeLine);
 }
 
 void setArrayValuesToZero(int array[4][5]) {
@@ -125,4 +132,11 @@ int getLastZeroValueRowNum(int array[4][5], int colNumber) {
   }
   // if any error occurred in other funtions
   return -1;
+}
+void swapValueInArray(int array[4][5], int firstNumRow, int firstNumCol,
+                      int secondNumRow, int secondNumCol) {
+  int temp1 = array[firstNumRow - 1][firstNumCol - 1];
+  int temp2 = array[secondNumRow - 1][secondNumCol - 1];
+  array[firstNumRow - 1][firstNumCol - 1] = temp2;
+  array[secondNumRow - 1][secondNumCol - 1] = temp1;
 }
