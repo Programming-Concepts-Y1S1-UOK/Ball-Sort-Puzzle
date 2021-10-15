@@ -6,28 +6,44 @@
 
 using namespace std;
 
-void setArrayValuesToZero(int array[ROW][COL]);
-void PrintArrayValuesToConsole(int array[ROW][COL]);
-void setArrayColValues(int array[ROW][COL], int colSize,
-                       int arrayOrder[DEFAULT_ARRAY_VALUES_SIZE]);
-int FirstselectedColNumber(int array[ROW][COL]);
-int secondSelectedColNumber(int array[ROW][COL], int firstselectedNumber);
-int getFirstNoneZeroValueRowNum(int array[ROW][COL], int colNumber);
-int getLastZeroValueRowNum(int array[ROW][COL], int colNumber);
-void swapValueInArray(int array[ROW][COL], int firstNumRow, int firstNumCol,
+void setArrayValuesToZero(int** array);
+void PrintArrayValuesToConsole(int** array);
+void setInitialBallPositions(int** array, int colSize,
+                             int* initialBallPositions);
+int FirstselectedColNumber(int** array);
+int secondSelectedColNumber(int** array, int firstselectedNumber);
+int getFirstNoneZeroValueRowNum(int** array, int colNumber);
+int getLastZeroValueRowNum(int** array, int colNumber);
+void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
                       int secondNumRow, int secondNumCol);
 
 int main() {
-  int ballPipeLine[ROW][COL];
-  int arrayOrderLevelOne[DEFAULT_ARRAY_VALUES_SIZE] = {1, 2, 1, 2, 2, 1,
-                                                       1, 3, 3, 3, 3, 2};
+  int** ballPipeLine = new int*[ROW];  // rows are fixed to 4
+  for (int i = 0; i < ROW; i++) {
+    ballPipeLine[i] = new int[COL];  // easy col-5, medium col-7, hard col-9
+  }
+
+  int* initialBallPositions = new int[ROW * (COL - 2)];
+  initialBallPositions[0] = 1;
+  initialBallPositions[1] = 2;
+  initialBallPositions[2] = 1;
+  initialBallPositions[3] = 2;
+  initialBallPositions[4] = 2;
+  initialBallPositions[5] = 1;
+  initialBallPositions[6] = 1;
+  initialBallPositions[7] = 3;
+  initialBallPositions[8] = 3;
+  initialBallPositions[9] = 3;
+  initialBallPositions[10] = 3;
+  initialBallPositions[11] = 2;
+  // initialBallPositions = {1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 3, 2};
+
   int firstSelectedRowNum;
   int firstSelectedColNum;
   int secondSelectedRowNum;
   int secondSelectedColNum;
   setArrayValuesToZero(ballPipeLine);
-  // PrintArrayValuesToConsole(ballPipeLine);
-  setArrayColValues(ballPipeLine, 3, arrayOrderLevelOne);
+  setInitialBallPositions(ballPipeLine, 3, initialBallPositions);
 
   while (true) {
     PrintArrayValuesToConsole(ballPipeLine);
@@ -44,18 +60,17 @@ int main() {
 
     swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,
                      secondSelectedRowNum, secondSelectedColNum);
-    // PrintArrayValuesToConsole(ballPipeLine);
   }
 }
 
-void setArrayValuesToZero(int array[ROW][COL]) {
+void setArrayValuesToZero(int** array) {
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < COL; j++) {
       array[i][j] = 0;
     }
   }
 }
-void PrintArrayValuesToConsole(int array[ROW][COL]) {
+void PrintArrayValuesToConsole(int** array) {
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < COL; j++) {
       cout << array[i][j] << " ";
@@ -63,20 +78,20 @@ void PrintArrayValuesToConsole(int array[ROW][COL]) {
     cout << endl;
   }
 }
-void setArrayColValues(int array[ROW][COL], int colSize,
-                       int arrayOrder[DEFAULT_ARRAY_VALUES_SIZE]) {
+void setInitialBallPositions(int** array, int colSize,
+                             int* initialBallPositions) {
   // yellow 1
   // blue 2
   // red 3
   int count = 0;
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < colSize; j++) {
-      array[i][j] = arrayOrder[count];
+      array[i][j] = initialBallPositions[count];
       count++;
     }
   }
 }
-int FirstselectedColNumber(int array[ROW][COL]) {
+int FirstselectedColNumber(int** array) {
   int selectedCol;
   bool canSelectCol;
   while (true) {
@@ -94,7 +109,7 @@ int FirstselectedColNumber(int array[ROW][COL]) {
     cout << endl << "(Enter Valid Column Number)" << endl;
   }
 }
-int secondSelectedColNumber(int array[ROW][COL], int firstselectedNumber) {
+int secondSelectedColNumber(int** array, int firstselectedNumber) {
   int selectedCol;
   while (true) {
     bool isAllColumnValueZero = true;
@@ -130,21 +145,21 @@ int secondSelectedColNumber(int array[ROW][COL], int firstselectedNumber) {
     cout << endl << "(Enter Valid Column Number)" << endl;
   }
 }
-int getFirstNoneZeroValueRowNum(int array[ROW][COL], int colNumber) {
+int getFirstNoneZeroValueRowNum(int** array, int colNumber) {
   for (int i = 0; i < ROW; i++) {
     if (array[i][colNumber - 1] != 0) return i + 1;
   }
   // if any error occurred in other funtions
   return -1;
 }
-int getLastZeroValueRowNum(int array[ROW][COL], int colNumber) {
+int getLastZeroValueRowNum(int** array, int colNumber) {
   for (int i = 0; i < ROW; i++) {
     if (array[i][colNumber - 1] != 0) return i;
   }
   // case: all column value == zero
   return ROW;
 }
-void swapValueInArray(int array[ROW][COL], int firstNumRow, int firstNumCol,
+void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
                       int secondNumRow, int secondNumCol) {
   int temp1 = array[firstNumRow - 1][firstNumCol - 1];
   int temp2 = array[secondNumRow - 1][secondNumCol - 1];
