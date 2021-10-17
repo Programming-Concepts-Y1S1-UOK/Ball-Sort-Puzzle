@@ -4,20 +4,26 @@
 
 using namespace std;
 
+int getDifficultyFromUser(void);//easy-medium-hard
+int getColumnSize(int gameDeficultyLevel);
+void setValuesToInitialBallPositionsArray(int* array, int gameDeficultyLevel);
 void setArrayValuesToZero(int** array, int columnSize);//set all 2d array  elements to zero
 void PrintArrayValuesToConsole(int** array, int columnSize);//print 2d array elements to terminal 
-int getDifficultyFromUser(void);//easy-medium-hard
 void setInitialBallPositions(int** array, int colSize, int* initialBallPositions);//set initial ball position after game started
 int FirstselectedColNumber(int** array, int columnSize);//take the ball from the pipeLine(column) 
-int secondSelectedColNumber(int** array, int firstselectedNumber, int columnSize);//drop the ball to pipeLine(column)
 int getFirstNoneZeroValueRowNum(int** array, int colNumber);//we need to take the ball from the pipeLine top
+int secondSelectedColNumber(int** array, int firstselectedNumber, int columnSize);//drop the ball to pipeLine(column)
 int getLastZeroValueRowNum(int** array, int colNumber);//we need to drop the ball to the pipeLine bottom
 void swapValueInArray(int** array, int firstNumRow, int firstNumCol, int secondNumRow, int secondNumCol);//2 value swap in 2d array
-int getColumnSize(int gameDeficultyLevel);
 
 int main() {
   int gameDeficultyLevel;
   int columnSize;
+  int firstSelectedColNum;//ball take column position
+  int firstSelectedRowNum;//ball take row position
+  int secondSelectedColNum;//ball drop column position
+  int secondSelectedRowNum;//ball drop row position
+
   gameDeficultyLevel = getDifficultyFromUser();
   columnSize = getColumnSize(gameDeficultyLevel);
 
@@ -26,27 +32,10 @@ int main() {
     ballPipeLine[i] = new int[columnSize];  // easy column-5, medium column-7, hard column-9
   }
 
-  int* initialBallPositions = new int[ROW * (columnSize - 2)];//in the start we need to fill the pipelines(column) with 2 empty pipeline(column)
-  initialBallPositions[0] = 1;
-  initialBallPositions[1] = 2;
-  initialBallPositions[2] = 1;
-  initialBallPositions[3] = 2;
-  initialBallPositions[4] = 2;
-  initialBallPositions[5] = 1;
-  initialBallPositions[6] = 1;
-  initialBallPositions[7] = 3;
-  initialBallPositions[8] = 3;
-  initialBallPositions[9] = 3;
-  initialBallPositions[10] = 3;
-  initialBallPositions[11] = 2;
-  // initialBallPositionsEasy = {1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 3, 2};
-  //initialBallPositionMedium={2,3,3,4,5,5,1,3,1,2,4,2,4,1,3,1,2,4,5,5}
-  //initialBallPositionHard={3,5,4,4,6,4,7,7,6,1,1,2,4,7,3,5,6,3,6,7,1,2,5,2,3,5,2,1}
+  //in the start we need to fill the pipelines(column) with 2 empty pipeline(column)
+  int* initialBallPositions = new int[ROW * (columnSize - 2)];
+  setValuesToInitialBallPositionsArray(initialBallPositions, gameDeficultyLevel);
 
-  int firstSelectedColNum;//ball take column position
-  int firstSelectedRowNum;//ball take row position
-  int secondSelectedColNum;//ball drop column position
-  int secondSelectedRowNum;//ball drop row position
   setArrayValuesToZero(ballPipeLine, columnSize);
   setInitialBallPositions(ballPipeLine, (columnSize - 2), initialBallPositions);
 
@@ -60,23 +49,6 @@ int main() {
     secondSelectedRowNum = getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
 
     swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum, secondSelectedRowNum, secondSelectedColNum);
-  }
-}
-//set all 2d array  elements to zero
-void setArrayValuesToZero(int** array, int columnSize) {
-  for (int i = 0; i < ROW; i++) {
-    for (int j = 0; j < columnSize; j++) {
-      array[i][j] = 0;
-    }
-  }
-}
-//print 2d array elements to terminal 
-void PrintArrayValuesToConsole(int** array, int columnSize) {
-  for (int i = 0; i < ROW; i++) {
-    for (int j = 0; j < columnSize; j++) {
-      cout << array[i][j] << " ";
-    }
-    cout << endl;
   }
 }
 //three main level (easy-medium-hard )
@@ -95,6 +67,58 @@ int getDifficultyFromUser(void) {
   }
 
 
+}
+int getColumnSize(int gameDeficultyLevel) {
+  if (gameDeficultyLevel == 1)
+    return 5;
+  else if (gameDeficultyLevel == 2)
+    return 7;
+  else if (gameDeficultyLevel == 3)
+    return 9;
+  else
+    return -1;
+}
+void setValuesToInitialBallPositionsArray(int* array, int gameDeficultyLevel) {
+  int initialBallPositionsEasy[] = { 1, 2, 1, 2, 2, 1, 1, 3, 3, 3, 3, 2 };
+  int initialBallPositionMedium[] = { 2,3,3,4,5,5,1,3,1,2,4,2,4,1,3,1,2,4,5,5 };
+  int initialBallPositionHard[] = { 3,5,4,4,6,4,7,7,6,1,1,2,4,7,3,5,6,3,6,7,1,2,5,2,3,5,2,1 };
+
+  if (gameDeficultyLevel == 1) {
+    for (int i = 0; i < 12; i++)
+    {
+      array[i] = initialBallPositionsEasy[i];
+    }
+
+  }
+  if (gameDeficultyLevel == 2) {
+    for (int i = 0; i < 20; i++)
+    {
+      array[i] = initialBallPositionMedium[i];
+    }
+  }
+  if (gameDeficultyLevel == 3) {
+    for (int i = 0; i < 28; i++)
+    {
+      array[i] = initialBallPositionHard[i];
+    }
+  }
+}
+//set all 2d array  elements to zero
+void setArrayValuesToZero(int** array, int columnSize) {
+  for (int i = 0; i < ROW; i++) {
+    for (int j = 0; j < columnSize; j++) {
+      array[i][j] = 0;
+    }
+  }
+}
+//print 2d array elements to terminal 
+void PrintArrayValuesToConsole(int** array, int columnSize) {
+  for (int i = 0; i < ROW; i++) {
+    for (int j = 0; j < columnSize; j++) {
+      cout << array[i][j] << " ";
+    }
+    cout << endl;
+  }
 }
 //set initial ball position after game started
 void setInitialBallPositions(int** array, int colSize, int* initialBallPositions) {
@@ -192,13 +216,4 @@ void swapValueInArray(int** array, int firstNumRow, int firstNumCol, int secondN
   array[firstNumRow - 1][firstNumCol - 1] = temp2;
   array[secondNumRow - 1][secondNumCol - 1] = temp1;
 }
-int getColumnSize(int gameDeficultyLevel) {
-  if (gameDeficultyLevel == 1)
-    return 5;
-  else if (gameDeficultyLevel == 2)
-    return 7;
-  else if (gameDeficultyLevel == 3)
-    return 9;
-  else
-    return -1;
-}
+
