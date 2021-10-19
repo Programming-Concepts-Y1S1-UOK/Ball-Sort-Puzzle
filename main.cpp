@@ -54,9 +54,16 @@ int main() {
     //check winning status
     if (getWinningStatus(ballPipeLine, ROW, columnSize)) {
       PrintArrayValuesToConsole(ballPipeLine, columnSize);
+      //deallocate 2d array
+      for (int i = 0; i < ROW; i++) {
+        delete[] ballPipeLine[i];
+      }
+      delete[] ballPipeLine;
+      delete[] initialBallPositions;
       cout << "Level Complete !!!" << endl;
       break;
     }
+
   }
 }
 //three main level (easy-medium-hard )
