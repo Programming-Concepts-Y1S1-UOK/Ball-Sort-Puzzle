@@ -15,6 +15,7 @@ int getFirstNoneZeroValueRowNum(int** array, int colNumber);//we need to take th
 int secondSelectedColNumber(int** array, int firstselectedNumber, int columnSize);//drop the ball to pipeLine(column)
 int getLastZeroValueRowNum(int** array, int colNumber);//we need to drop the ball to the pipeLine bottom
 void swapValueInArray(int** array, int firstNumRow, int firstNumCol, int secondNumRow, int secondNumCol);//2 value swap in 2d array
+bool getWinningStatus(int** array, int rowSize, int colSize);
 
 int main() {
   int gameDeficultyLevel;
@@ -49,6 +50,13 @@ int main() {
     secondSelectedRowNum = getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
 
     swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum, secondSelectedRowNum, secondSelectedColNum);
+
+    //check winning status
+    if (getWinningStatus(ballPipeLine, ROW, columnSize)) {
+      PrintArrayValuesToConsole(ballPipeLine, columnSize);
+      cout << "Level Complete !!!" << endl;
+      break;
+    }
   }
 }
 //three main level (easy-medium-hard )
@@ -215,5 +223,18 @@ void swapValueInArray(int** array, int firstNumRow, int firstNumCol, int secondN
   int temp2 = array[secondNumRow - 1][secondNumCol - 1];
   array[firstNumRow - 1][firstNumCol - 1] = temp2;
   array[secondNumRow - 1][secondNumCol - 1] = temp1;
+}
+bool getWinningStatus(int** array, int rowSize, int colSize) {
+  for (int i = 0; i < colSize; i++)
+  {
+    int columnFirstValue = array[0][i];
+    for (int j = 0; j < rowSize; j++)
+    {
+      if (columnFirstValue != array[j][i])
+        return false;
+    }
+
+  }
+  return true;
 }
 
