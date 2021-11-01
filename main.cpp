@@ -28,7 +28,7 @@ int getLastZeroValueRowNum(
 void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
                       int secondNumRow,
                       int secondNumCol);  // 2 value swap in 2d array
-bool getWinningStatus(int** array, int rowSize, int colSize);
+bool getWinningStatus(int** array, int colSize);
 
 int main() {
   int gameDeficultyLevel;
@@ -74,7 +74,7 @@ int main() {
                      secondSelectedRowNum, secondSelectedColNum);
 
     // check winning status
-    if (getWinningStatus(ballPipeLine, ROW, columnSize)) {
+    if (getWinningStatus(ballPipeLine, columnSize)) {
       PrintArrayValuesToConsole(ballPipeLine, columnSize);
       // deallocate 2d array
       for (int i = 0; i < ROW; i++) {
@@ -249,10 +249,10 @@ void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
   array[firstNumRow - 1][firstNumCol - 1] = temp2;
   array[secondNumRow - 1][secondNumCol - 1] = temp1;
 }
-bool getWinningStatus(int** array, int rowSize, int colSize) {
+bool getWinningStatus(int** array, int colSize) {
   for (int i = 0; i < colSize; i++) {
     int columnFirstValue = array[0][i];
-    for (int j = 0; j < rowSize; j++) {
+    for (int j = 0; j < ROW; j++) {
       if (columnFirstValue != array[j][i]) return false;
     }
   }
