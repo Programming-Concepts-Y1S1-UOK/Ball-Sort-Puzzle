@@ -214,7 +214,8 @@ int secondSelectedColNumber(int** array, int firstselectedNumber,
     cout << endl << "select your column =: ";
     cin >> selectedCol;
     // case: check column range
-    if (selectedCol > 0 && selectedCol <= columnSize) {
+    if (selectedCol > 0 && selectedCol <= columnSize &&
+        selectedCol != firstselectedNumber) {
       // case: check is all column value ==0
       for (int i = 0; i < ROW; i++) {
         if (array[i][selectedCol - 1] != 0) isAllColumnValueZero = false;
