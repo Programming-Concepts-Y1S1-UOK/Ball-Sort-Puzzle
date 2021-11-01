@@ -158,13 +158,66 @@ void setArrayValuesToZero(int** array, int columnSize) {
     }
   }
 }
-// print 2d array elements to terminal
+// print 2d array elements to terminal with propper formatting
 void PrintArrayValuesToConsole(int** array, int columnSize) {
-  for (int i = 0; i < ROW; i++) {
-    for (int j = 0; j < columnSize; j++) {
-      cout << array[i][j] << " ";
+  cout << endl;
+  // show column numbers
+  for (int i = 0; i < columnSize; i++) {
+    // need more space to first number
+    if (i == 0) {
+      cout << "    " << i + 1 << "    ";
+      continue;
     }
-    cout << endl;
+    cout << i + 1 << "    ";
+  }
+  // free line after column numbers
+  cout << endl << endl;
+  for (int i = 0; i < ROW; i++) {
+    // show row number
+    cout << i + 1 << "  ";
+    // map array number with emoji
+    for (int j = 0; j < columnSize; j++) {
+      switch (array[i][j]) {
+        case 0:
+          cout << "❓"
+               << "   ";
+          break;
+        case 1:
+          cout << "🏈"
+               << "   ";
+          break;
+        case 2:
+          cout << "🎱"
+               << "   ";
+          break;
+        case 3:
+          cout << "🎈"
+               << "   ";
+          break;
+        case 4:
+          cout << "🏐"
+               << "   ";
+          break;
+        case 5:
+          cout << "🏀"
+               << "   ";
+          break;
+        case 6:
+          cout << "⚾"
+               << "   ";
+          break;
+        case 7:
+          cout << "⚽"
+               << "   ";
+          break;
+
+        default:
+          break;
+      }
+    }
+    // free line after every row
+    cout << endl << endl;
+    ;
   }
 }
 // set initial ball position after game started
