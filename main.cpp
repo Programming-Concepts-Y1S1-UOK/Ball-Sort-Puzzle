@@ -29,6 +29,9 @@ void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
                       int secondNumRow,
                       int secondNumCol);  // 2 value swap in 2d array
 bool getWinningStatus(int** array, int colSize);
+bool canGameContineAfterFirstSelection(int** array, int colSize,
+                                       int firstselectedRowNumber,
+                                       int firstselectedColNumber);
 
 int main() {
   int gameDeficultyLevel;
@@ -62,6 +65,20 @@ int main() {
     firstSelectedColNum = FirstselectedColNumber(ballPipeLine, columnSize);
     firstSelectedRowNum =
         getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
+
+    // check game can contine after first selection
+    if (!canGameContineAfterFirstSelection(ballPipeLine, columnSize,
+                                           firstSelectedRowNum,
+                                           firstSelectedColNum)) {
+      // deallocate 2d array
+      for (int i = 0; i < ROW; i++) {
+        delete[] ballPipeLine[i];
+      }
+      delete[] ballPipeLine;
+      delete[] initialBallPositions;
+      cout << "lost !!!" << endl;
+      break;
+    }
 
     secondSelectedColNum = secondSelectedColNumber(
         ballPipeLine,
@@ -257,4 +274,35 @@ bool getWinningStatus(int** array, int colSize) {
     }
   }
   return true;
+}
+bool canGameContineAfterFirstSelection(int** array, int colSize,
+                                       int firstselectedRowNumber,
+                                       int firstselectedColNumber) {
+  int value = array[firstselectedRowNumber - 1][firstselectedColNumber - 1];
+  int count = 0;
+  // find there is any full empty column available
+  for (int i = 0; i < colSize; i++) {
+    for (int j = 0; j < ROW; j++) {
+      if (array[j][i] != 0) {
+        break;
+      } else {
+        count++;
+      }
+      if (count == ROW) return true;
+    }
+    count = 0;
+  }
+  // case: space available accouding to game rule
+  for (int i = 0; i < colSize; i++) {
+    // ignore selected column
+    if (i == firstselectedColNumber - 1) continue;
+    for (int j = 0; j < ROW; j++) {
+      if (array[j][i] != value && array[j][i] != 0) break;
+      if (array[j][i] == 0) continue;
+      if (array[j][i] == value && j == 0) break;
+      if (array[j][i] == value && j != 0) return true;
+    }
+  }
+  // no space available accouding to game rules
+  return false;
 }
