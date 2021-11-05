@@ -141,11 +141,46 @@ void setArrayValuesToZero(int** array, int columnSize) {
 }
 // print 2d array elements to terminal
 void PrintArrayValuesToConsole(int** array, int columnSize) {
+cout << endl;
+  for (int i = 0; i < columnSize; i++) {
+    cout << "----";
+  }
+  cout << endl;
+
+  for (int i = 0; i < columnSize; i++) {
+    cout << " " << i + 1 << "  ";
+  }
+
+  cout << endl;
+  for (int i = 0; i < columnSize; i++) {
+    cout << "----";
+  }
+  cout << endl ;
+
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < columnSize; j++) {
-      cout << array[i][j] << " ";
+      //map number with letter
+      char name;
+      if(array[i][j]==1)
+        name='Y';
+      if(array[i][j]==2)
+        name='B';
+      if(array[i][j]==3)
+        name='R';
+      if(array[i][j]==4)
+        name='G';
+      if(array[i][j]==5)
+        name='P';
+      if(array[i][j]==6)
+        name='W';
+      if(array[i][j]==7)
+        name='L';
+      if(array[i][j]==0)
+        name='?';
+
+      cout << "(" << name << ") ";
     }
-    cout << endl;
+    cout << endl << endl;
   }
 }
 // set initial ball position after game started
@@ -156,8 +191,8 @@ void setInitialBallPositions(int** array, int colSize,
   // red 3
   // green 4
   // pink 5
-  // dark green 6
-  // purple 7
+  // white 6
+  // Lime 7
   int count = 0;
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < colSize; j++) {
