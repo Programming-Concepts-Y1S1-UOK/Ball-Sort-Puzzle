@@ -7,31 +7,16 @@ using namespace std;
 int getDifficultyFromUser(void);  // easy-medium-hard
 int getColumnSize(int gameDeficultyLevel);
 void setValuesToInitialBallPositionsArray(int* array, int gameDeficultyLevel);
-void setArrayValuesToZero(
-    int** array, int columnSize);  // set all 2d array  elements to zero
-void PrintArrayValuesToConsole(
-    int** array, int columnSize);  // print 2d array elements to terminal
-void setInitialBallPositions(
-    int** array, int colSize,
-    int* initialBallPositions);  // set initial ball position after game started
-int FirstselectedColNumber(
-    int** array, int columnSize);  // take the ball from the pipeLine(column)
-int getFirstNoneZeroValueRowNum(
-    int** array,
-    int colNumber);  // we need to take the ball from the pipeLine top
-int secondSelectedColNumber(
-    int** array, int firstselectedNumber, int columnSize,
-    int firstSelectedColumn);  // drop the ball to pipeLine(column)
-int getLastZeroValueRowNum(
-    int** array,
-    int colNumber);  // we need to drop the ball to the pipeLine bottom
-void swapValueInArray(int** array, int firstNumRow, int firstNumCol,
-                      int secondNumRow,
-                      int secondNumCol);  // 2 value swap in 2d array
+void setArrayValuesToZero(int** array, int columnSize);  // set all 2d array  elements to zero
+void PrintArrayValuesToConsole(int** array, int columnSize);  // print 2d array elements to terminal
+void setInitialBallPositions(int** array, int colSize,int* initialBallPositions);  // set initial ball position after game started
+int FirstselectedColNumber(int** array, int columnSize);  // take the ball from the pipeLine(column)
+int getFirstNoneZeroValueRowNum(int** array,int colNumber);  // we need to take the ball from the pipeLine top
+int secondSelectedColNumber(int** array, int firstselectedNumber, int columnSize,int firstSelectedColumn);  // drop the ball to pipeLine(column)
+int getLastZeroValueRowNum(int** array,int colNumber);  // we need to drop the ball to the pipeLine bottom
+void swapValueInArray(int** array, int firstNumRow, int firstNumCol,int secondNumRow,int secondNumCol);  // 2 value swap in 2d array
 bool getWinningStatus(int** array, int colSize);
-bool canGameContineAfterFirstSelection(int** array, int colSize,
-                                       int firstselectedRowNumber,
-                                       int firstselectedColNumber);
+bool canGameContineAfterFirstSelection(int** array, int colSize,int firstselectedRowNumber,int firstselectedColNumber);
 
 int main() {
   int gameDeficultyLevel;
@@ -41,24 +26,20 @@ int main() {
   int secondSelectedColNum;  // ball drop column position
   int secondSelectedRowNum;  // ball drop row position
 
-  cout << "\n-------------------------WELCOME TO BALL SORT PUZZLE "
-          "GAME!-------------------------\n"
-       << endl;
+  cout << "\n-------------------------WELCOME TO BALL SORT PUZZLE GAME!-------------------------\n"<< endl;
 
   gameDeficultyLevel = getDifficultyFromUser();
   columnSize = getColumnSize(gameDeficultyLevel);
 
   int** ballPipeLine = new int*[columnSize];  // rows are fixed to 4
   for (int i = 0; i < ROW; i++) {
-    ballPipeLine[i] =
-        new int[columnSize];  // easy column-5, medium column-7, hard column-9
+    ballPipeLine[i] =new int[columnSize];  // easy column-5, medium column-7, hard column-9
   }
 
   // in the start we need to fill the pipelines(column) with 2 empty
   // pipeline(column)
   int* initialBallPositions = new int[ROW * (columnSize - 2)];
-  setValuesToInitialBallPositionsArray(initialBallPositions,
-                                       gameDeficultyLevel);
+  setValuesToInitialBallPositionsArray(initialBallPositions,gameDeficultyLevel);
 
   setArrayValuesToZero(ballPipeLine, columnSize);
   setInitialBallPositions(ballPipeLine, (columnSize - 2), initialBallPositions);
@@ -67,13 +48,10 @@ int main() {
     PrintArrayValuesToConsole(ballPipeLine, columnSize);
 
     firstSelectedColNum = FirstselectedColNumber(ballPipeLine, columnSize);
-    firstSelectedRowNum =
-        getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
+    firstSelectedRowNum =getFirstNoneZeroValueRowNum(ballPipeLine, firstSelectedColNum);
 
     // check game can contine after first selection
-    if (!canGameContineAfterFirstSelection(ballPipeLine, columnSize,
-                                           firstSelectedRowNum,
-                                           firstSelectedColNum)) {
+    if (!canGameContineAfterFirstSelection(ballPipeLine, columnSize,firstSelectedRowNum,firstSelectedColNum)) {
       // deallocate 2d array
       for (int i = 0; i < ROW; i++) {
         delete[] ballPipeLine[i];
@@ -84,15 +62,10 @@ int main() {
       break;
     }
 
-    secondSelectedColNum = secondSelectedColNumber(
-        ballPipeLine,
-        ballPipeLine[firstSelectedRowNum - 1][firstSelectedColNum - 1],
-        columnSize, firstSelectedColNum);
-    secondSelectedRowNum =
-        getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
+    secondSelectedColNum = secondSelectedColNumber(ballPipeLine,ballPipeLine[firstSelectedRowNum - 1][firstSelectedColNum - 1],columnSize, firstSelectedColNum);
+    secondSelectedRowNum =getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
 
-    swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,
-                     secondSelectedRowNum, secondSelectedColNum);
+    swapValueInArray(ballPipeLine, firstSelectedRowNum, firstSelectedColNum,secondSelectedRowNum, secondSelectedColNum);
 
     // check winning status
     if (getWinningStatus(ballPipeLine, columnSize)) {
@@ -108,6 +81,8 @@ int main() {
     }
   }
 }
+
+
 // three main level (easy-medium-hard )
 int getDifficultyFromUser(void) {
   int choice;
