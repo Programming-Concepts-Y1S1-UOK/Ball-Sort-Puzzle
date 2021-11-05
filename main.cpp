@@ -20,8 +20,8 @@ int getFirstNoneZeroValueRowNum(
     int** array,
     int colNumber);  // we need to take the ball from the pipeLine top
 int secondSelectedColNumber(
-    int** array, int firstselectedNumber,
-    int columnSize);  // drop the ball to pipeLine(column)
+    int** array, int firstselectedNumber, int columnSize,
+    int firstSelectedColumn);  // drop the ball to pipeLine(column)
 int getLastZeroValueRowNum(
     int** array,
     int colNumber);  // we need to drop the ball to the pipeLine bottom
@@ -41,7 +41,9 @@ int main() {
   int secondSelectedColNum;  // ball drop column position
   int secondSelectedRowNum;  // ball drop row position
 
-  cout << "\n-------------------------WELCOME TO BALL SORT PUZZLE GAME!-------------------------\n" << endl;
+  cout << "\n-------------------------WELCOME TO BALL SORT PUZZLE "
+          "GAME!-------------------------\n"
+       << endl;
 
   gameDeficultyLevel = getDifficultyFromUser();
   columnSize = getColumnSize(gameDeficultyLevel);
@@ -85,7 +87,7 @@ int main() {
     secondSelectedColNum = secondSelectedColNumber(
         ballPipeLine,
         ballPipeLine[firstSelectedRowNum - 1][firstSelectedColNum - 1],
-        columnSize);
+        columnSize, firstSelectedColNum);
     secondSelectedRowNum =
         getLastZeroValueRowNum(ballPipeLine, secondSelectedColNum);
 
@@ -208,7 +210,7 @@ int FirstselectedColNumber(int** array, int columnSize) {
 }
 // drop the ball to pipeLine(column)
 int secondSelectedColNumber(int** array, int firstselectedNumber,
-                            int columnSize) {
+                            int columnSize, int firstSelectedColumn) {
   int selectedCol;
   while (true) {
     bool isAllColumnValueZero = true;
@@ -217,7 +219,7 @@ int secondSelectedColNumber(int** array, int firstselectedNumber,
     cin >> selectedCol;
     // case: check column range
     if (selectedCol > 0 && selectedCol <= columnSize &&
-        selectedCol != firstselectedNumber) {
+        selectedCol != firstSelectedColumn) {
       // case: check is all column value ==0
       for (int i = 0; i < ROW; i++) {
         if (array[i][selectedCol - 1] != 0) isAllColumnValueZero = false;
