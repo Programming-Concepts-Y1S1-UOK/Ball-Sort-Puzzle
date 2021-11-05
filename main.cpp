@@ -41,6 +41,8 @@ int main() {
   int secondSelectedColNum;  // ball drop column position
   int secondSelectedRowNum;  // ball drop row position
 
+  cout << "\n-------------------------WELCOME TO BALL SORT PUZZLE GAME!-------------------------\n" << endl;
+
   gameDeficultyLevel = getDifficultyFromUser();
   columnSize = getColumnSize(gameDeficultyLevel);
 
@@ -76,7 +78,7 @@ int main() {
       }
       delete[] ballPipeLine;
       delete[] initialBallPositions;
-      cout << "lost !!!" << endl;
+      cout << "\nYou Lost!" << endl;
       break;
     }
 
@@ -99,7 +101,7 @@ int main() {
       }
       delete[] ballPipeLine;
       delete[] initialBallPositions;
-      cout << "Level Complete !!!" << endl;
+      cout << "\nCongratulations! Level Completed!!" << endl;
       break;
     }
   }
@@ -107,14 +109,14 @@ int main() {
 // three main level (easy-medium-hard )
 int getDifficultyFromUser(void) {
   int choice;
-  cout << "Press 1 for easy" << endl;
-  cout << "Press 2 for medium" << endl;
-  cout << "Press 3 for hard" << endl;
+  cout << "Press 1 for Easy" << endl;
+  cout << "Press 2 for Medium" << endl;
+  cout << "Press 3 for Hard" << endl;
   while (true) {
-    cout << "Now Enter Number: ";
+    cout << "\nChoose your difficulty level: ";
     cin >> choice;
     if (choice > 0 && choice <= 3) return choice;
-    cout << "(Enter Valid Input)" << endl;
+    cout << "(Please Enter Valid Input)" << endl;
   }
 }
 int getColumnSize(int gameDeficultyLevel) {
@@ -190,7 +192,7 @@ int FirstselectedColNumber(int** array, int columnSize) {
   int selectedCol;
   bool canSelectCol;
   while (true) {
-    cout << endl << "select your column =: ";
+    cout << endl << "Select the column to take a ball: ";
     cin >> selectedCol;
     // case: check column range
     if (selectedCol > 0 && selectedCol <= columnSize) {
@@ -211,7 +213,7 @@ int secondSelectedColNumber(int** array, int firstselectedNumber,
   while (true) {
     bool isAllColumnValueZero = true;
     bool isAllColumnValueNoneZero = true;
-    cout << endl << "select your column =: ";
+    cout << endl << "Select a column to move the ball: ";
     cin >> selectedCol;
     // case: check column range
     if (selectedCol > 0 && selectedCol <= columnSize &&
