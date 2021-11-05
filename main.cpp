@@ -32,6 +32,7 @@ bool getWinningStatus(int** array, int colSize);
 bool canGameContineAfterFirstSelection(int** array, int colSize,
                                        int firstselectedRowNumber,
                                        int firstselectedColNumber);
+void printGamename();
 
 int main() {
   int gameDeficultyLevel;
@@ -107,14 +108,18 @@ int main() {
 // three main level (easy-medium-hard )
 int getDifficultyFromUser(void) {
   int choice;
-  cout << "Press 1 for easy" << endl;
-  cout << "Press 2 for medium" << endl;
-  cout << "Press 3 for hard" << endl;
+  printGamename();
+  cout << "======================================" << endl;
+  cout << "|   Press 1 For Easy Mode            |" << endl;
+  cout << "|   Press 2 For Medium Mode          |" << endl;
+  cout << "|   Press 3 For Hard Mode            |" << endl;
+  cout << "======================================" << endl;
   while (true) {
-    cout << "Now Enter Number: ";
+    cout << endl;
+    cout << "Now Enter Number For Select Game Mode:= ";
     cin >> choice;
     if (choice > 0 && choice <= 3) return choice;
-    cout << "(Enter Valid Input)" << endl;
+    cout << endl << "(Number Must Be 1-3 Range)" << endl;
   }
 }
 int getColumnSize(int gameDeficultyLevel) {
@@ -160,11 +165,27 @@ void setArrayValuesToZero(int** array, int columnSize) {
 }
 // print 2d array elements to terminal
 void PrintArrayValuesToConsole(int** array, int columnSize) {
+  cout << endl;
+  for (int i = 0; i < columnSize; i++) {
+    cout << "----";
+  }
+  cout << endl;
+
+  for (int i = 0; i < columnSize; i++) {
+    cout << " " << i + 1 << "  ";
+  }
+
+  cout << endl;
+  for (int i = 0; i < columnSize; i++) {
+    cout << "----";
+  }
+  cout << endl << endl;
+
   for (int i = 0; i < ROW; i++) {
     for (int j = 0; j < columnSize; j++) {
-      cout << array[i][j] << " ";
+      cout << "(" << array[i][j] << ") ";
     }
-    cout << endl;
+    cout << endl << endl;
   }
 }
 // set initial ball position after game started
@@ -190,7 +211,7 @@ int FirstselectedColNumber(int** array, int columnSize) {
   int selectedCol;
   bool canSelectCol;
   while (true) {
-    cout << endl << "select your column =: ";
+    cout << endl << "select your first column =: ";
     cin >> selectedCol;
     // case: check column range
     if (selectedCol > 0 && selectedCol <= columnSize) {
@@ -211,7 +232,7 @@ int secondSelectedColNumber(int** array, int firstselectedNumber,
   while (true) {
     bool isAllColumnValueZero = true;
     bool isAllColumnValueNoneZero = true;
-    cout << endl << "select your column =: ";
+    cout << endl << "select your second column =: ";
     cin >> selectedCol;
     // case: check column range
     if (selectedCol > 0 && selectedCol <= columnSize &&
@@ -306,4 +327,20 @@ bool canGameContineAfterFirstSelection(int** array, int colSize,
   }
   // no space available accouding to game rules
   return false;
+}
+
+void printGamename() {
+  cout << R"(
+################################################################################################################      
+ ______   _______  _        _          _______  _______  _______ _________   _______  _______  _______  _______ 
+(  ___ \ (  ___  )( \      ( \        (  ____ \(  ___  )(  ____ )\__   __/  (  ____ \(  ___  )(       )(  ____ \
+| (   ) )| (   ) || (      | (        | (    \/| (   ) || (    )|   ) (     | (    \/| (   ) || () () || (    \/
+| (__/ / | (___) || |      | |        | (_____ | |   | || (____)|   | |     | |      | (___) || || || || (__    
+|  __ (  |  ___  || |      | |        (_____  )| |   | ||     __)   | |     | | ____ |  ___  || |(_)| ||  __)   
+| (  \ \ | (   ) || |      | |              ) || |   | || (\ (      | |     | | \_  )| (   ) || |   | || (      
+| )___) )| )   ( || (____/\| (____/\  /\____) || (___) || ) \ \__   | |     | (___) || )   ( || )   ( || (____/\
+|/ \___/ |/     \|(_______/(_______/  \_______)(_______)|/   \__/   )_(     (_______)|/     \||/     \|(_______/
+
+#################################################################################################################                                                                                                                
+)" << endl;
 }
