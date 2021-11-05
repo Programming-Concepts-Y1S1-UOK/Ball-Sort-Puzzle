@@ -86,9 +86,11 @@ int main() {
 // three main level (easy-medium-hard )
 int getDifficultyFromUser(void) {
   int choice;
-  cout << "Press 1 for Easy" << endl;
-  cout << "Press 2 for Medium" << endl;
-  cout << "Press 3 for Hard" << endl;
+  cout << "======================================" << endl;
+  cout << "|   Press 1 For Easy Mode            |" << endl;
+  cout << "|   Press 2 For Medium Mode          |" << endl;
+  cout << "|   Press 3 For Hard Mode            |" << endl;
+  cout << "======================================" << endl;
   while (true) {
     cout << "\nChoose your difficulty level: ";
     cin >> choice;
